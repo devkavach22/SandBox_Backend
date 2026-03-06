@@ -9,15 +9,17 @@ const {
   getAllCustomersHandler,
 } = require("./user.controller");
 
+const validateClient = require("../../utils/validateClient");
+
 const router = express.Router();
+router.get("/all",    validateClient,getAllCustomersHandler);  
 
-router.get("/all",             getAllCustomersHandler);  // Sab customers — Admin
-router.get("/profile/:userId", getProfileHandler);       // Profile dekho
-router.put("/profile/:userId", updateProfileHandler);    // Profile update
-router.get("/available-apis",  getAvailableApisHandler); // Available APIs
-router.post("/select-api",     selectApiHandler);        // API select
+router.get("/profile/:userId",validateClient, getProfileHandler);       
+router.put("/profile/:userId",validateClient, updateProfileHandler);    
+router.get("/available-apis", validateClient, getAvailableApisHandler); // Available APIs
+router.post("/select-api", validateClient,    selectApiHandler);        // API select
 
-router.delete("/deselect-api", deselectApiHandler);      // API deselect
-router.get("/balance/:userId", getBalanceHandler);       // Balance
+router.delete("/deselect-api",validateClient, deselectApiHandler);      // API deselect
+router.get("/balance/:userId",validateClient, getBalanceHandler);       // Balance
 
 module.exports = router;
