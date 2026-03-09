@@ -20,11 +20,11 @@ const getEnabledApisHandler = asyncHandler(async (req, res) => {
 
 // ── API Add — Admin ──
 const createApiHandler = asyncHandler(async (req, res) => {
-  const { name, url, method, description, pricePerCall, sampleBody, sampleResponse } = req.body;
+  const { name, url, method, description, pricePerCall, sampleBody, sampleResponse, category } = req.body;
   if (!name || !url || !method) {
     return res.status(STATUS.BAD_REQUEST).json({ success: false, message: "Name, URL and method required" });
   }
-  const api = await createApi({ name, url, method, description, pricePerCall, sampleBody, sampleResponse });
+  const api = await createApi({ name, url, method, description, pricePerCall, sampleBody, sampleResponse, category });
   return res.status(STATUS.CREATED).json({ success: true, message: "API created successfully", data: api });
 });
 

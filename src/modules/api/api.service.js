@@ -11,10 +11,11 @@ const getEnabledApis = async () => {
 };
 
 // ── API add karo ──
-const createApi = async ({ name, url, method, description, pricePerCall, sampleBody, sampleResponse }) => {
+const createApi = async ({ name, url, method, description, pricePerCall, sampleBody, sampleResponse, category }) => {
   const api = await Api.create({
     name, url, method, description,
     pricePerCall, sampleBody, sampleResponse,
+    category,           // ← yeh add karo
     isDemo: false,
   });
   return api;

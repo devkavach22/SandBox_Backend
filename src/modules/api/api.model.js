@@ -2,42 +2,47 @@ const mongoose = require("mongoose");
 
 const apiSchema = new mongoose.Schema({
   name: {
-    type:     String,
+    type: String,
     required: [true, "API name required"],
-    trim:     true,
+    trim: true,
   },
   url: {
-    type:     String,
+    type: String,
     required: [true, "URL required"],
-    trim:     true,
+    trim: true,
   },
   method: {
-    type:    String,
-    enum:    ["GET", "POST", "PUT", "DELETE"],
+    type: String,
+    enum: ["GET", "POST", "PUT", "DELETE"],
     default: "GET",
   },
   description: {
-    type:  String,
-    trim:  true,
+    type: String,
+    trim: true,
   },
   pricePerCall: {
-    type:    Number,
+    type: Number,
     default: 2,
   },
+  category: {
+    type: String,
+    enum: ["konverthr_node", "konverthr_odoo"],
+    default: "konverthr_node",
+  },
   enabled: {
-    type:    Boolean,
+    type: Boolean,
     default: true,
   },
   isDemo: {
-    type:    Boolean,
+    type: Boolean,
     default: false,
   },
   sampleBody: {
-    type:    mongoose.Schema.Types.Mixed,
+    type: mongoose.Schema.Types.Mixed,
     default: null,
   },
   sampleResponse: {
-    type:    mongoose.Schema.Types.Mixed,
+    type: mongoose.Schema.Types.Mixed,
     default: null,
   },
 }, { timestamps: true });
