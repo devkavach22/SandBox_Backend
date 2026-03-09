@@ -21,4 +21,13 @@ app.use("/api/payment", paymentRoute);
 app.use("/api/user", userRoute);
 app.use("/api/sandbox", sandboxRoute);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Server is running",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 module.exports = app;
