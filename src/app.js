@@ -21,6 +21,16 @@ app.use("/api/payment", paymentRoute);
 app.use("/api/user", userRoute);
 app.use("/api/sandbox", sandboxRoute);
 
+/* Home Route */
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Welcome to SandBox API",
+    documentation: "/api",
+    health: "/health"
+  });
+});
+
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "success",

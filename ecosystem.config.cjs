@@ -13,13 +13,6 @@ module.exports = {
 
       env_file: "/etc/node-env/SandBox/.env",
 
-      env: {
-        NODE_ENV: "development"
-      },
-
-      env_production: {
-        NODE_ENV: "production"
-      },
 
       error_file: "./logs/error.log",
       out_file: "./logs/out.log",
