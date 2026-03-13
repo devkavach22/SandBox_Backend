@@ -1,11 +1,22 @@
 require("dotenv").config();
-const app = require("./src/app");
+const cors      = require("cors");
+const app       = require("./src/app");
 const connectDB = require("./src/config/db");
 
 const PORT = process.env.PORT;
 
+/* ─── CORS (applied before anything else) ─────────────────────── */
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
   });
+}).catch((err) => {
+  console.error("❌ DB connection failed:", err);
+  process.exit(1);
 });

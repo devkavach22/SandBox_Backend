@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express      = require("express");
-const cors         = require("cors");
 const helmet       = require("helmet");
 const authRoute    = require("./modules/auth/auth.route");
 const apiRoute     = require("./modules/api/api.route");
@@ -10,33 +9,25 @@ const sandboxRoute = require("./modules/sandbox/sandbox.route");
 
 const app = express();
 
-/* ─── 1. CORS (must be first) ─────────────────────────────────── */
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
-app.options("/{*path}", cors()); // ✅ path-to-regexp v8 requires named wildcard
-
-/* ─── 2. Helmet (with CORS-conflicting policies disabled) ─────── */
+/* ─── 1. Helmet (CORS-conflicting policies disabled) ──────────── */
 app.use(helmet({
   crossOriginResourcePolicy:  false,
   crossOriginOpenerPolicy:    false,
   crossOriginEmbedderPolicy:  false,
 }));
 
-/* ─── 3. Body Parsers ─────────────────────────────────────────── */
+/* ─── 2. Body Parsers ─────────────────────────────────────────── */
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-/* ─── 4. Routes ───────────────────────────────────────────────── */
+/* ─── 3. Routes ───────────────────────────────────────────────── */
 app.use("/api/auth",    authRoute);
 app.use("/api/apis",    apiRoute);
 app.use("/api/payment", paymentRoute);
 app.use("/api/user",    userRoute);
 app.use("/api/sandbox", sandboxRoute);
 
-/* ─── 5. Home Route ───────────────────────────────────────────── */
+/* ─── 4. Home Route ───────────────────────────────────────────── */
 app.get("/", (req, res) => {
   res.status(200).json({
     status:        "success",
@@ -56,7 +47,6 @@ app.get("/health", (req, res) => {
 });
 
 module.exports = app;
-
 
 
 
