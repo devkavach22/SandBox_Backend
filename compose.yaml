@@ -13,4 +13,6 @@ services:
       - "6001:6001"
     volumes:
       - /etc/node-env/sandbox-backend.com/.env:/app/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: always
