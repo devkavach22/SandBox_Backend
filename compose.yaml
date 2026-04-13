@@ -10,5 +10,7 @@ services:
     environment:
       NODE_ENV: production
     ports:
-      - 6001:6001
-
+      - "6001:6001"
+    volumes:
+      - /etc/node-env/sandbox-backend.com/.env:/app/.env
+    restart: always
