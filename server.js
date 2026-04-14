@@ -30,7 +30,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 }));
-
+app.use(express.json({ limit: "10mb" }));           // ← must be before routes
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use((req, res, next) => {
