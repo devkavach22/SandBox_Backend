@@ -65,12 +65,17 @@ const callApi = async ({ userId, apiId, requestBody, headers = {}, isFormData = 
     const responseTime = Date.now() - startTime;
     console.log("⏱️  Total:", responseTime, "ms");
 
-    // ── Balance katao ──
-    const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { $inc: { balance: -api.pricePerCall } },
-        { new: true }
-    );
+    // ── Balance katao — sirf success pe ──
+    let updatedUser;
+    if (status === "success") {
+        updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $inc: { balance: -api.pricePerCall } },
+            { new: true }
+        );
+    } else {
+        updatedUser = await User.findById(userId); // balance same rahega
+    }
 
     // ── History save karo ──
     const loggedBody = isFormData
@@ -87,7 +92,7 @@ const callApi = async ({ userId, apiId, requestBody, headers = {}, isFormData = 
         responseData,
         statusCode,
         status,
-        amountDeducted: api.pricePerCall,
+        amountDeducted: status === "success" ? api.pricePerCall : 0, // ✅ error pe 0
         responseTime,
     });
 
@@ -95,7 +100,7 @@ const callApi = async ({ userId, apiId, requestBody, headers = {}, isFormData = 
         statusCode,
         status,
         responseTime:     `${responseTime}ms`,
-        amountDeducted:   api.pricePerCall,
+        amountDeducted:   status === "success" ? api.pricePerCall : 0, // ✅
         remainingBalance: updatedUser.balance,
         response:         responseData,
     };

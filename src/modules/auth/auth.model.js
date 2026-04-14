@@ -6,7 +6,12 @@ const userSchema = new mongoose.Schema({
   client_id: {
     type:    String,
     unique:  true,
-    default: () => "CT" + crypto.randomBytes(6).toString("hex").toUpperCase(),
+    default: () => {
+      const nums = (n) => Math.floor(Math.random() * Math.pow(10, n)).toString().padStart(n, "0");
+      const lets = (n) => Array.from({ length: n }, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)]).join("");
+      
+      return `U${nums(5)}${lets(2)}${nums(4)}${lets(3)}${nums(6)}`;
+    },
   },
   name: {
     type:     String,
@@ -27,8 +32,8 @@ const userSchema = new mongoose.Schema({
     select:    false,
   },
   phone: {
-    type:    String,
-    trim:    true,
+    type:  String,
+    trim:  true,
     validate: {
       validator: function(v) {
         if (!v) return true;
@@ -46,13 +51,17 @@ const userSchema = new mongoose.Schema({
     type:    String,
     default: null,
   },
-  // In fields ko add karein
+  secreteKey: {
+    type:    String,
+    unique:  true,
+    default: () => crypto.randomBytes(32).toString("hex"),
+  },
   tempPassword: {
-    type: String,
-    select: false, // Security ke liye ye normal queries me nahi dikhega
+    type:   String,
+    select: false,
   },
   tempPasswordExpires: {
-    type: Date,
+    type:   Date,
     select: false,
   },
   balance: {
