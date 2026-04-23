@@ -27,7 +27,6 @@ const apiSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      // ── No enum restriction — frontend values: konverthr_node, konverthr_odoo, konverthr_fastapi ──
       default: "konverthr_node",
       trim: true,
     },
@@ -49,14 +48,15 @@ const apiSchema = new mongoose.Schema(
     },
     attachments: [
       {
-        filename:     { type: String },
+        filename: { type: String },
         originalname: { type: String },
-        mimetype:     { type: String },
-        size:         { type: Number },
-        path:         { type: String },
+        mimetype: { type: String },
+        size: { type: Number },
+        path: { type: String },
       },
     ],
   },
+
   { timestamps: true }
 );
 

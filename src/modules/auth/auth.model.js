@@ -6,12 +6,7 @@ const userSchema = new mongoose.Schema({
   client_id: {
     type:    String,
     unique:  true,
-    default: () => {
-      const nums = (n) => Math.floor(Math.random() * Math.pow(10, n)).toString().padStart(n, "0");
-      const lets = (n) => Array.from({ length: n }, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 26)]).join("");
-      
-      return `U${nums(5)}${lets(2)}${nums(4)}${lets(3)}${nums(6)}`;
-    },
+    default: () => crypto.randomBytes(32).toString("hex"), // ✅ 64 char hex
   },
   name: {
     type:     String,
@@ -54,7 +49,7 @@ const userSchema = new mongoose.Schema({
   secreteKey: {
     type:    String,
     unique:  true,
-    default: () => crypto.randomBytes(32).toString("hex"),
+    default: () => crypto.randomBytes(32).toString("hex"), // ✅ 64 char hex
   },
   tempPassword: {
     type:   String,

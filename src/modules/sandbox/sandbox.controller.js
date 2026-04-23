@@ -30,7 +30,6 @@ const callApiHandler = [
             const FormData = require("form-data");
             const fd = new FormData();
 
-            // ✅ knownLength hata diya — axios ke saath chunked transfer slow karta tha
             req.files.forEach((f) => {
                 fd.append(f.fieldname, f.buffer, {
                     filename:    f.originalname,
