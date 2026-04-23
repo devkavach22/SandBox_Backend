@@ -9,66 +9,58 @@ const userRoute = require("./src/modules/user/user.route");
 const sandboxRoute = require("./src/modules/sandbox/sandbox.route");
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-const allowedOrigins = [
-"http://localhost:6002",
-"http://192.168.11.64:6002",
-];
-
-const internalCors = cors({
-origin: (origin, callback) => {
-if (!origin) return callback(null, true);
-if (allowedOrigins.includes(origin)) {
-return callback(null, true);
-    } else {
-console.warn(`🚫 CORS blocked: ${origin}`);
-return callback(new Error(`CORS policy: origin ${origin} not allowed`));
-    }
-  },
-methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-allowedHeaders: ["Content-Type", "Authorization"],
-credentials: true,
-});
+const corsOptions = {
+  origin: [
+    "http://localhost:6002",
+    "http://192.168.11.64:6002",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use((req, res, next) => {
-console.log(`📥 ${req.method} ${req.url}`);
-next();
+  console.log(`📥 ${req.method} ${req.url}`);
+  next();
 });
 
-app.use(internalCors);
-app.use("/api/auth",    authRoute);
-app.use("/api/apis",    apiRoute);
+app.options("/{*path}", cors(corsOptions));
+app.use(cors(corsOptions));
+
+app.use("/api/auth", authRoute);
+app.use("/api/apis", apiRoute);
 app.use("/api/payment", paymentRoute);
-app.use("/api/user",    userRoute);
+app.use("/api/user", userRoute);
 app.use("/api/sandbox", sandboxRoute);
 
 app.get("/", (req, res) => {
-res.status(200).json({ status: "success", message: "Welcome to SandBox API" });
+  res.status(200).json({ status: "success", message: "Welcome to SandBox API" });
 });
 
 app.get("/health", (req, res) => {
-res.status(200).json({ status: "success", message: "Server is running" });
+  res.status(200).json({ status: "success", message: "Server is running" });
 });
 
 app.use((req, res) => {
-console.log(`❌ 404 - Route not found: ${req.method} ${req.url}`);
-res.status(404).json({ success: false, message: "Route not found" });
+  console.log(`❌ 404 - Route not found: ${req.method} ${req.url}`);
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 app.use((err, req, res, next) => {
-console.error("🔥 Unhandled error:", err.message || err);
-res.status(500).json({ success: false, message: err.message || "Internal server error" });
+  console.error("🔥 Unhandled error:", err.message || err);
+  res.status(500).json({ success: false, message: err.message || "Internal server error" });
 });
 
 connectDB().then(() => {
-app.listen(PORT, "0.0.0.0", () => {
-console.log(`✅ Server running on port ${PORT}`);
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`✅ Server running on port ${PORT}`);
   });
 }).catch((err) => {
-console.error("❌ DB connection failed:", err);
-process.exit(1);
+  console.error("❌ DB connection failed:", err);
+  process.exit(1);
 });
