@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 const corsOptions = {
   origin: [
     "http://localhost:6002",
-    "http://192.168.11.64:6002",
+    "http://192.168.11.53:6002"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
