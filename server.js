@@ -9,12 +9,13 @@ const userRoute = require("./src/modules/user/user.route");
 const sandboxRoute = require("./src/modules/sandbox/sandbox.route");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const corsOptions = {
   origin: [
     "http://localhost:6002",
-    "http://192.168.11.53:6002"
+    "http://192.168.11.53:6002",
+    "*"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
