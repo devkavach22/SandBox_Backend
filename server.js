@@ -30,14 +30,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.options("/{*path}", cors(corsOptions));
 app.use(cors(corsOptions));
 
-app.use("/api/auth", authRoute);
-app.use("/api/apis", apiRoute);
-app.use("/api/payment", paymentRoute);
-app.use("/api/user", userRoute);
-app.use("/api/sandbox", sandboxRoute);
+app.use("/auth", authRoute);
+app.use("/apis", apiRoute);
+app.use("/payment", paymentRoute);
+app.use("/user", userRoute);
+app.use("/sandbox", sandboxRoute);
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "success", message: "Welcome to SandBox API" });
