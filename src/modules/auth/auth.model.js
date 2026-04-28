@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   client_id: {
     type:    String,
     unique:  true,
-    default: () => crypto.randomBytes(32).toString("hex"), // ✅ 64 char hex
+    default: () => crypto.randomBytes(32).toString("hex"), 
   },
   name: {
     type:     String,
@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   secreteKey: {
     type:    String,
     unique:  true,
-    default: () => crypto.randomBytes(32).toString("hex"), // ✅ 64 char hex
+    default: () => crypto.randomBytes(32).toString("hex"), 
   },
   tempPassword: {
     type:   String,
